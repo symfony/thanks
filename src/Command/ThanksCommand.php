@@ -24,6 +24,23 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ThanksCommand extends BaseCommand
 {
+    // This is a list of projects that would like to get a star on their main
+    // community repository whenever you use any of their other repositories.
+    private static $mainRepositories = [
+        'drupal' => [
+            'name' => 'drupal/drupal',
+            'url' => 'https://github.com/drupal/drupal',
+        ],
+        'laravel' => [
+            'name' => 'laravel/laravel',
+            'url' => 'https://github.com/laravel/laravel',
+        ],
+        'symfony' => [
+            'name' => 'symfony/symfony',
+            'url' => 'https://github.com/symfony/symfony',
+        ],
+    ];
+
     protected function configure()
     {
         $this->setName('thanks')
@@ -50,6 +67,14 @@ class ThanksCommand extends BaseCommand
             }
             if ($url = $package->getSourceUrl()) {
                 $urls[$package->getName()] = $url;
+
+                if (!preg_match('#^https://github.com/([^/]++)#', $url, $url)) {
+                    continue;
+                }
+                $owner = $url[1];
+                if (isset(self::$mainRepositories[$owner])) {
+                    $urls[self::$mainRepositories[$owner]['name']] = self::$mainRepositories[$owner]['url'];
+                }
             }
         }
         ksort($urls);
@@ -58,8 +83,7 @@ class ThanksCommand extends BaseCommand
 
         $i = 0;
         $template ='_%d: repository(owner:"%s",name:"%s"){id,viewerHasStarred}'."\n";
-        $graphql = sprintf($template, ++$i, 'symfony', 'symfony');
-        $aliases = ['_1' => ['symfony/symfony', 'https://github.com/symfony/symfony']];
+        $graphql = '';
 
         foreach ($urls as $package => $url) {
             if (preg_match('#^https://github.com/([^/]++)/([^./]++)#', $url, $url)) {
