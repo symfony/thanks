@@ -26,3 +26,25 @@ If you're wondering why did some dependencies get thanked and not others, the an
 Original idea by Doug Tangren (softprops) 2017 for Rust (thanks!)
 
 Implemented by Nicolas Grekas (SensioLabs & Blackfire.io) 2017 for PHP.
+
+Forwarding stars
+----------------
+
+Because they don't actually are runtime dependencies of yours, `composer-plugins`, `metapackage` and `symfony-pack` Composer packages don't get stars.
+
+Yet, all package types can forward a star to one other package their authors would like to thank in return.
+
+If you are a package author and want to thank another repository, you can add a `thanks` entry in the `extra` section of your `composer.json` file.
+
+For example, `symfony/webpack-encore-pack` forwards a star to `symfony/webpack-encore`:
+
+```json
+{
+    "extra": {
+        "thanks": {
+            "name": "symfony/webpack-encore",
+            "url": "https://github.com/symfony/webpack-encore"
+        }
+    }
+}
+```

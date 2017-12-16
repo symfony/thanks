@@ -58,6 +58,10 @@ class ThanksCommand extends BaseCommand
 
         $urls = [];
         foreach ($repo->getPackages() as $package) {
+            $extra = $package->getExtra();
+            if (isset($extra['thanks']['name']) && isset($extra['thanks']['url'])) {
+                $urls[$extra['thanks']['name']] = $extra['thanks']['url'];
+            }
             switch ($package->getType()) {
                 case 'composer-plugin':
                 case 'metapackage':
