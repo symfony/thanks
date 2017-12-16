@@ -44,9 +44,9 @@ class ThanksCommand extends BaseCommand
     protected function configure()
     {
         $this->setName('thanks')
-            ->setDescription('Give thanks (in the form of github ⭐) to your fellow PHP package maintainers.')
+            ->setDescription('Give thanks (in the form of a github ⭐) to your fellow PHP package maintainers.')
             ->setDefinition([
-                new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Don\'t send the stars actually'),
+                new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Don\'t actually send the stars'),
             ])
         ;
     }
