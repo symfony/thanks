@@ -44,7 +44,7 @@ class ThanksCommand extends BaseCommand
     protected function configure()
     {
         $this->setName('thanks')
-            ->setDescription('Give thanks (in the form of github ★) to your fellow PHP package maintainers.')
+            ->setDescription('Give thanks (in the form of github ⭐) to your fellow PHP package maintainers.')
             ->setDefinition([
                 new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Don\'t send the stars actually'),
             ])
@@ -116,7 +116,7 @@ class ThanksCommand extends BaseCommand
 
             $output->writeln('Stars sent to:');
             foreach ($repos as $alias => $mutation) {
-                $output->writeln(sprintf('  ★ <comment>%s</> - %s', $aliases[$alias][0], $aliases[$alias][1]));
+                $output->writeln(sprintf('  ⭐ <comment>%s</> - %s', $aliases[$alias][0], $aliases[$alias][1]));
             }
         }
 
