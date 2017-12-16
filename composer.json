@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "php": "^7.0",
+        "php": "^5.5.9|^7.0.8",
         "composer-plugin-api": "^1.1"
     },
     "autoload": {

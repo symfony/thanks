@@ -41,6 +41,13 @@ class ThanksCommand extends BaseCommand
 
         $urls = [];
         foreach ($repo->getPackages() as $package) {
+            switch ($package->getType()) {
+                case 'composer-plugin':
+                case 'metapackage':
+                case 'symfony-pack':
+                    // Skip non-code depencencies
+                    continue 2;
+            }
             if ($url = $package->getSourceUrl()) {
                 $urls[$package->getName()] = $url;
             }
@@ -52,12 +59,12 @@ class ThanksCommand extends BaseCommand
         $i = 0;
         $template ='_%d: repository(owner:"%s",name:"%s"){id,viewerHasStarred}'."\n";
         $graphql = sprintf($template, ++$i, 'symfony', 'symfony');
-        $aliases = ['_1' => 'symfony/symfony'];
+        $aliases = ['_1' => ['symfony/symfony', 'https://github.com/symfony/symfony']];
 
         foreach ($urls as $package => $url) {
             if (preg_match('#^https://github.com/([^/]++)/([^./]++)#', $url, $url)) {
                 $graphql .= sprintf($template, ++$i, $url[1], $url[2]);
-                $aliases['_'.$i] = $package;
+                $aliases['_'.$i] = [$package, $url[0]];
             }
         }
 
@@ -83,17 +90,18 @@ class ThanksCommand extends BaseCommand
                 $repos = $notStarred;
             }
 
+            $output->writeln('Stars sent to:');
             foreach ($repos as $alias => $mutation) {
-                $output->writeln(sprintf('★ %s', $aliases[$alias]));
+                $output->writeln(sprintf('  ★ <comment>%s</> - %s', $aliases[$alias][0], $aliases[$alias][1]));
             }
         }
 
-        $output->writeln('Thanks to you! 💖');
+        $output->writeln("\nThanks to you! 💖");
 
         return 0;
     }
 
-    private function callGitHub(RemoteFilesystem $rfs, string $graphql): array
+    private function callGitHub(RemoteFilesystem $rfs, $graphql)
     {
         $result = $rfs->getContents('github.com', 'https://api.github.com/graphql', false, [
             'http' => [
@@ -101,7 +109,8 @@ class ThanksCommand extends BaseCommand
                 'content' => json_encode(['query' => $graphql]),
             ],
         ]);
+        $result = json_decode($result, true);
 
-        return json_decode($result, true)['data'];
+        return $result['data'];
     }
 }
