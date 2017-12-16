@@ -16,6 +16,7 @@ use Composer\Composer;
 use Composer\Util\RemoteFilesystem;
 use Composer\Factory;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -27,6 +28,9 @@ class ThanksCommand extends BaseCommand
     {
         $this->setName('thanks')
             ->setDescription('Give thanks (in the form of github ★) to your fellow PHP package maintainers.')
+            ->setDefinition([
+                new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Don\'t send the stars actually'),
+            ])
         ;
     }
 
@@ -61,17 +65,23 @@ class ThanksCommand extends BaseCommand
 
         $template ='%1$s: addStar(input:{clientMutationId:"%s",starrableId:"%s"}){clientMutationId}'."\n";
         $graphql = '';
+        $notStarred = [];
 
         foreach ($repos as $alias => $repo) {
             if (!$repo['viewerHasStarred']) {
                 $graphql .= sprintf($template, $alias, $repo['id']);
+                $notStarred[$alias] = $repo;
             }
         }
 
-        if (!$graphql) {
+        if (!$notStarred) {
             $output->writeln('You already starred all your GitHub dependencies.');
         } else {
-            $repos = $this->callGithub($rfs, sprintf("mutation{\n%s}", $graphql));
+            if (!$input->getOption('dry-run')) {
+                $repos = $this->callGithub($rfs, sprintf("mutation{\n%s}", $graphql));
+            } else {
+                $repos = $notStarred;
+            }
 
             foreach ($repos as $alias => $mutation) {
                 $output->writeln(sprintf('★ %s', $aliases[$alias]));
