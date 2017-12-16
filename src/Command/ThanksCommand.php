@@ -116,7 +116,7 @@ class ThanksCommand extends BaseCommand
 
             $output->writeln('Stars sent to:');
             foreach ($repos as $alias => $mutation) {
-                $output->writeln(sprintf('  ⭐ <comment>%s</> - %s', $aliases[$alias][0], $aliases[$alias][1]));
+                $output->writeln(sprintf(' ⭐  <comment>%s</> - %s', $aliases[$alias][0], $aliases[$alias][1]));
             }
         }
 
