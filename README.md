@@ -12,6 +12,11 @@ Install this as any other (dev) Composer package:
 $ composer require --dev symfony/thanks
 ```
 
+You can also install it once for all your local projects:
+```sh
+$ composer global require symfony/thanks
+```
+
 Usage
 -----
 
