@@ -27,6 +27,10 @@ class ThanksCommand extends BaseCommand
     // This is a list of projects that would like to get a star on their main
     // community repository whenever you use any of their other repositories.
     private static $mainRepositories = [
+        'api-platform' => [
+            'name' => 'api-platform/api-platform',
+            'url' => 'https://github.com/api-platform/api-platform',
+        ],
         'drupal' => [
             'name' => 'drupal/drupal',
             'url' => 'https://github.com/drupal/drupal',
