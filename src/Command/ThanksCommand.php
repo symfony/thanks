@@ -24,12 +24,22 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ThanksCommand extends BaseCommand
 {
-    // This is a list of projects that would like to get a star on their main
-    // community repository whenever you use any of their other repositories.
+    // This is a list of projects that should get a star on their main repository
+    // (when there is one) whenever you use any of their other repositories.
+    // When a project's main repo is also a dependency of their other repos (like amphp/amp),
+    // there is no need to list it here, as starring will transitively happen anyway.
     private static $mainRepositories = [
         'api-platform' => [
             'name' => 'api-platform/api-platform',
             'url' => 'https://github.com/api-platform/api-platform',
+        ],
+        'cakephp' => [
+            'name' => 'cakephp/cakephp',
+            'url' => 'https://github.com/cakephp/cakephp',
+        ],
+        'doctrine' => [
+            'name' => 'doctrine/doctrine2',
+            'url' => 'https://github.com/doctrine/doctrine2',
         ],
         'drupal' => [
             'name' => 'drupal/drupal',
@@ -39,9 +49,41 @@ class ThanksCommand extends BaseCommand
             'name' => 'laravel/laravel',
             'url' => 'https://github.com/laravel/laravel',
         ],
+        'nette' => [
+            'name' => 'nette/nette',
+            'url' => 'https://github.com/nette/nette',
+        ],
+        'phpDocumentor' => [
+            'name' => 'phpDocumentor/phpDocumentor2',
+            'url' => 'https://github.com/phpDocumentor/phpDocumentor2',
+        ],
+        'piwik' => [
+            'name' => 'piwik/piwik',
+            'url' => 'https://github.com/piwik/piwik',
+        ],
+        'reactphp' => [
+            'name' => 'reactphp/react',
+            'url' => 'https://github.com/reactphp/react',
+        ],
+        'sebastianbergmann' => [
+            'name' => 'phpunit/phpunit',
+            'url' => 'https://github.com/sebastianbergmann/phpunit',
+        ],
+        'slimphp' => [
+            'name' => 'slimphp/Slim',
+            'url' => 'https://github.com/slimphp/Slim',
+        ],
+        'Sylius' => [
+            'name' => 'Sylius/Sylius',
+            'url' => 'https://github.com/Sylius/Sylius',
+        ],
         'symfony' => [
             'name' => 'symfony/symfony',
             'url' => 'https://github.com/symfony/symfony',
+        ],
+        'yiisoft' => [
+            'name' => 'yiisoft/yii2',
+            'url' => 'https://github.com/yiisoft/yii2',
         ],
         'zendframework' => [
             'name' => 'zendframework/zendframework',
