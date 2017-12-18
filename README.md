@@ -35,7 +35,7 @@ Implemented by Nicolas Grekas (SensioLabs & Blackfire.io) 2017 for PHP.
 Forwarding stars
 ----------------
 
-Because they aren't actually runtime dependencies of yours, `composer-plugins`, `metapackage` and `symfony-pack` Composer packages don't receive stars.
+Because they aren't actually runtime dependencies of yours, `composer-plugin`, `metapackage` and `symfony-pack` Composer packages don't receive stars.
 
 Yet, all package types can *forward* a star to another package that their authors would like to thank instead.
 
