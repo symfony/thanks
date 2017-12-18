@@ -39,6 +39,10 @@ class ThanksCommand extends BaseCommand
             'name' => 'symfony/symfony',
             'url' => 'https://github.com/symfony/symfony',
         ],
+        'zendframework' => [
+            'name' => 'zendframework/zendframework',
+            'url' => 'https://github.com/zendframework/zendframework',
+        ],
     ];
 
     protected function configure()
