@@ -64,7 +64,7 @@ class ThanksCommand extends BaseCommand
         $composer = $this->getComposer();
         $repo = $composer->getRepositoryManager()->getLocalRepository();
 
-        $urls = [];
+        $urls = ['php/php-src' => 'https://github.com/php/php-src'];
         foreach ($repo->getPackages() as $package) {
             $extra = $package->getExtra();
             if (isset($extra['thanks']['name']) && isset($extra['thanks']['url'])) {
