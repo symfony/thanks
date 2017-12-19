@@ -35,8 +35,8 @@ class Thanks implements Capable, CommandProvider, PluginInterface
 
     public function getCommands()
     {
-        return array(
+        return [
             new Command\ThanksCommand(),
-        );
+        ];
     }
 }
