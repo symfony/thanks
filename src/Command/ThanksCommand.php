@@ -109,16 +109,16 @@ class ThanksCommand extends BaseCommand
         $urls = ['php/php-src' => 'https://github.com/php/php-src'];
         foreach ($repo->getPackages() as $package) {
             $extra = $package->getExtra();
+
+            // the thanks plugin has a thankless job
+            if ('symfony/thanks' === $package->getName()) {
+                continue;
+            }
+
             if (isset($extra['thanks']['name']) && isset($extra['thanks']['url'])) {
                 $urls += [$extra['thanks']['name'] => $extra['thanks']['url']];
             }
-            switch ($package->getType()) {
-                case 'composer-plugin':
-                case 'metapackage':
-                case 'symfony-pack':
-                    // Skip non-code depencencies
-                    continue 2;
-            }
+
             if ($url = $package->getSourceUrl()) {
                 $urls[$package->getName()] = $url;
 
@@ -131,6 +131,7 @@ class ThanksCommand extends BaseCommand
                 }
             }
         }
+
         ksort($urls);
 
         $rfs = Factory::createRemoteFilesystem($this->getIo(), $composer->getConfig());

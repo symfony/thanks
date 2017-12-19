@@ -35,13 +35,11 @@ Implemented by Nicolas Grekas (SensioLabs & Blackfire.io) 2017 for PHP.
 Forwarding stars
 ----------------
 
-Because they aren't actually runtime dependencies of yours, `composer-plugin`, `metapackage` and `symfony-pack` Composer packages don't receive stars.
-
-Yet, all package types can *forward* a star to another package that their authors would like to thank instead.
+Package authors can *send* a star to another package that they would like to thank.
 
 If you are a package author and want to thank another repository, you can add a `thanks` entry in the `extra` section of your `composer.json` file.
 
-For example, `symfony/webpack-encore-pack` forwards its star to `symfony/webpack-encore`:
+For example, `symfony/webpack-encore-pack` sends a star to `symfony/webpack-encore`:
 
 ```json
 {
