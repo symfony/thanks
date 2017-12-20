@@ -207,6 +207,7 @@ class ThanksCommand extends BaseCommand
         }
 
         $data = $file->read();
+
         return array_merge(
             isset($data['require']) ? array_keys($data['require']) : array(),
             isset($data['require-dev']) ? array_keys($data['require-dev']) : array()
