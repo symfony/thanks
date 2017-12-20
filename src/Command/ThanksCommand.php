@@ -13,6 +13,7 @@ namespace Symfony\Thanks\Command;
 
 use Composer\Command\BaseCommand;
 use Composer\Composer;
+use Composer\Json\JsonFile;
 use Composer\Util\RemoteFilesystem;
 use Composer\Factory;
 use Symfony\Component\Console\Input\InputInterface;
@@ -110,6 +111,8 @@ class ThanksCommand extends BaseCommand
             'composer/composer' => 'https://github.com/composer/composer',
             'php/php-src' => 'https://github.com/php/php-src',
         ];
+
+        $directPackages = $this->getDirectlyRequiredPackageNames();
         foreach ($repo->getPackages() as $package) {
             $extra = $package->getExtra();
 
@@ -129,7 +132,10 @@ class ThanksCommand extends BaseCommand
                     continue;
                 }
                 $owner = $url[1];
-                if (isset(self::$mainRepositories[$owner])) {
+
+                // star the main repository, but only if this package is directly
+                // being required by the user's composer.json
+                if (isset(self::$mainRepositories[$owner]) && in_array($package->getName(), $directPackages)) {
                     $urls[self::$mainRepositories[$owner]['name']] = self::$mainRepositories[$owner]['url'];
                 }
             }
@@ -194,5 +200,21 @@ class ThanksCommand extends BaseCommand
         $result = json_decode($result, true);
 
         return $result['data'];
+    }
+
+    private function getDirectlyRequiredPackageNames()
+    {
+        $file = new JsonFile(Factory::getComposerFile(), null, $this->getIO());
+
+        if (!$file->exists()) {
+            throw new \Exception('Could not find your composer.json file!');
+        }
+
+        $data = $file->read();
+
+        return array_merge(
+            isset($data['require']) ? array_keys($data['require']) : array(),
+            isset($data['require-dev']) ? array_keys($data['require-dev']) : array()
+        );
     }
 }
