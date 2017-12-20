@@ -46,6 +46,10 @@ class ThanksCommand extends BaseCommand
             'name' => 'laravel/laravel',
             'url' => 'https://github.com/laravel/laravel',
         ],
+        'illuminate' => [
+            'name' => 'laravel/laravel',
+            'url' => 'https://github.com/laravel/laravel',
+        ],
         'nette' => [
             'name' => 'nette/nette',
             'url' => 'https://github.com/nette/nette',
