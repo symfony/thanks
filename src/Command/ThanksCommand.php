@@ -38,10 +38,6 @@ class ThanksCommand extends BaseCommand
             'name' => 'cakephp/cakephp',
             'url' => 'https://github.com/cakephp/cakephp',
         ],
-        'doctrine' => [
-            'name' => 'doctrine/doctrine2',
-            'url' => 'https://github.com/doctrine/doctrine2',
-        ],
         'drupal' => [
             'name' => 'drupal/drupal',
             'url' => 'https://github.com/drupal/drupal',
