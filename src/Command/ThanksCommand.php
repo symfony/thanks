@@ -109,31 +109,30 @@ class ThanksCommand extends BaseCommand
         ];
 
         $directPackages = $this->getDirectlyRequiredPackageNames();
+        // symfony/thanks shouldn't trigger thanking symfony/symfony
+        unset($directPackages['symfony/thanks']);
         foreach ($repo->getPackages() as $package) {
             $extra = $package->getExtra();
-
-            // the thanks plugin has a thankless job
-            if ('symfony/thanks' === $package->getName()) {
-                continue;
-            }
 
             if (isset($extra['thanks']['name']) && isset($extra['thanks']['url'])) {
                 $urls += [$extra['thanks']['name'] => $extra['thanks']['url']];
             }
 
-            if ($url = $package->getSourceUrl()) {
-                $urls[$package->getName()] = $url;
+            if (!$url = $package->getSourceUrl()) {
+                continue;
+            }
 
-                if (!preg_match('#^https://github.com/([^/]++)#', $url, $url)) {
-                    continue;
-                }
-                $owner = $url[1];
+            $urls[$package->getName()] = $url;
 
-                // star the main repository, but only if this package is directly
-                // being required by the user's composer.json
-                if (isset(self::$mainRepositories[$owner]) && in_array($package->getName(), $directPackages)) {
-                    $urls[self::$mainRepositories[$owner]['name']] = self::$mainRepositories[$owner]['url'];
-                }
+            if (!preg_match('#^https://github.com/([^/]++)#', $url, $url)) {
+                continue;
+            }
+            $owner = $url[1];
+
+            // star the main repository, but only if this package is directly
+            // being required by the user's composer.json
+            if (isset(self::$mainRepositories[$owner]) && isset($directPackages[$package->getName()])) {
+                $urls[self::$mainRepositories[$owner]['name']] = self::$mainRepositories[$owner]['url'];
             }
         }
 
@@ -206,11 +205,9 @@ class ThanksCommand extends BaseCommand
             throw new \Exception('Could not find your composer.json file!');
         }
 
-        $data = $file->read();
+        $data = $file->read() + array('require' => array(), 'require-dev' => array());
+        $data = array_keys($data['require'] + $data['require-dev']);
 
-        return array_merge(
-            isset($data['require']) ? array_keys($data['require']) : array(),
-            isset($data['require-dev']) ? array_keys($data['require-dev']) : array()
-        );
+        return array_combine($data, $data);
     }
 }
