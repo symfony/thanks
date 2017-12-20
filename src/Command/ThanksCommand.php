@@ -168,14 +168,12 @@ class ThanksCommand extends BaseCommand
             $output->writeln('You already starred all your GitHub dependencies.');
         } else {
             if (!$input->getOption('dry-run')) {
-                $repos = $this->callGithub($rfs, sprintf("mutation{\n%s}", $graphql));
-            } else {
-                $repos = $notStarred;
+                $notStarred = $this->callGithub($rfs, sprintf("mutation{\n%s}", $graphql));
             }
 
-            $output->writeln('Stars sent to:');
-            foreach ($repos as $alias => $mutation) {
-                $output->writeln(sprintf(' ⭐  <comment>%s</> - %s', $aliases[$alias][0], $aliases[$alias][1]));
+            $output->writeln('Stars <comment>sent</> to:');
+            foreach ($repos as $alias => $repo) {
+                $output->writeln(sprintf(' ⭐  %s - %s', sprintf(isset($notStarred[$alias]) ? '<comment>%s</>' : '%s', $aliases[$alias][0]), $aliases[$alias][1]));
             }
         }
 
