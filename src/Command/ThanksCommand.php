@@ -155,7 +155,7 @@ class ThanksCommand extends BaseCommand
             }
         }
 
-        $repos = $this->callGithub($rfs, sprintf("query{\n%s}", $graphql));
+        $repos = $this->callGitHub($rfs, sprintf("query{\n%s}", $graphql));
 
         $template = '%1$s: addStar(input:{clientMutationId:"%s",starrableId:"%s"}){clientMutationId}'."\n";
         $graphql = '';
@@ -172,7 +172,7 @@ class ThanksCommand extends BaseCommand
             $output->writeln('You already starred all your GitHub dependencies.');
         } else {
             if (!$input->getOption('dry-run')) {
-                $notStarred = $this->callGithub($rfs, sprintf("mutation{\n%s}", $graphql));
+                $notStarred = $this->callGitHub($rfs, sprintf("mutation{\n%s}", $graphql));
             }
 
             $output->writeln('Stars <comment>sent</> to:');
