@@ -207,7 +207,7 @@ class ThanksCommand extends BaseCommand
             throw new \Exception('Could not find your composer.json file!');
         }
 
-        $data = $file->read() + array('require' => array(), 'require-dev' => array());
+        $data = $file->read() + ['require' => [], 'require-dev' => []];
         $data = array_keys($data['require'] + $data['require-dev']);
 
         return array_combine($data, $data);
