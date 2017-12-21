@@ -92,10 +92,18 @@ class ThanksCommand extends BaseCommand
         ],
     ];
 
+    private $star = '⭐ ';
+    private $heart = '💖';
+
     protected function configure()
     {
+        if ('\\' === DIRECTORY_SEPARATOR) {
+            $this->star = '*';
+            $this->heart = '<3';
+        }
+
         $this->setName('thanks')
-            ->setDescription('Give thanks (in the form of a GitHub ⭐) to your fellow PHP package maintainers.')
+            ->setDescription(sprintf('Give thanks (in the form of a GitHub %s) to your fellow PHP package maintainers.', $this->star))
             ->setDefinition([
                 new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Don\'t actually send the stars'),
             ])
@@ -177,11 +185,11 @@ class ThanksCommand extends BaseCommand
 
             $output->writeln('Stars <comment>sent</> to:');
             foreach ($repos as $alias => $repo) {
-                $output->writeln(sprintf(' ⭐  %s - %s', sprintf(isset($notStarred[$alias]) ? '<comment>%s</>' : '%s', $aliases[$alias][0]), $aliases[$alias][1]));
+                $output->writeln(sprintf(' %s %s - %s', $this->star, sprintf(isset($notStarred[$alias]) ? '<comment>%s</>' : '%s', $aliases[$alias][0]), $aliases[$alias][1]));
             }
         }
 
-        $output->writeln("\nThanks to you! 💖");
+        $output->writeln(sprintf("\nThanks to you! %s", $this->heart));
 
         return 0;
     }
