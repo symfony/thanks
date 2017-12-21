@@ -118,7 +118,7 @@ class ThanksCommand extends BaseCommand
         foreach ($repo->getPackages() as $package) {
             $extra = $package->getExtra();
 
-            if (isset($extra['thanks']['name']) && isset($extra['thanks']['url'])) {
+            if (isset($extra['thanks']['name'], $extra['thanks']['url'])) {
                 $urls += [$extra['thanks']['name'] => $extra['thanks']['url']];
             }
 
@@ -135,7 +135,7 @@ class ThanksCommand extends BaseCommand
 
             // star the main repository, but only if this package is directly
             // being required by the user's composer.json
-            if (isset(self::$mainRepositories[$owner]) && isset($directPackages[$package->getName()])) {
+            if (isset(self::$mainRepositories[$owner], $directPackages[$package->getName()])) {
                 $urls[self::$mainRepositories[$owner]['name']] = self::$mainRepositories[$owner]['url'];
             }
         }
@@ -145,7 +145,7 @@ class ThanksCommand extends BaseCommand
         $rfs = Factory::createRemoteFilesystem($this->getIo(), $composer->getConfig());
 
         $i = 0;
-        $template ='_%d: repository(owner:"%s",name:"%s"){id,viewerHasStarred}'."\n";
+        $template = '_%d: repository(owner:"%s",name:"%s"){id,viewerHasStarred}'."\n";
         $graphql = '';
 
         foreach ($urls as $package => $url) {
@@ -157,7 +157,7 @@ class ThanksCommand extends BaseCommand
 
         $repos = $this->callGithub($rfs, sprintf("query{\n%s}", $graphql));
 
-        $template ='%1$s: addStar(input:{clientMutationId:"%s",starrableId:"%s"}){clientMutationId}'."\n";
+        $template = '%1$s: addStar(input:{clientMutationId:"%s",starrableId:"%s"}){clientMutationId}'."\n";
         $graphql = '';
         $notStarred = [];
 
