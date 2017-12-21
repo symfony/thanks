@@ -95,7 +95,7 @@ class ThanksCommand extends BaseCommand
     protected function configure()
     {
         $this->setName('thanks')
-            ->setDescription('Give thanks (in the form of a GitHub ⭐) to your fellow PHP package maintainers.')
+            ->setDescription('Give thanks (in the form of a GitHub '.$this->getEmoji('star').') to your fellow PHP package maintainers.')
             ->setDefinition([
                 new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Don\'t actually send the stars'),
             ])
@@ -177,11 +177,11 @@ class ThanksCommand extends BaseCommand
 
             $output->writeln('Stars <comment>sent</> to:');
             foreach ($repos as $alias => $repo) {
-                $output->writeln(sprintf(' ⭐  %s - %s', sprintf(isset($notStarred[$alias]) ? '<comment>%s</>' : '%s', $aliases[$alias][0]), $aliases[$alias][1]));
+                $output->writeln(sprintf(' '.$this->getEmoji('star').'  %s - %s', sprintf(isset($notStarred[$alias]) ? '<comment>%s</>' : '%s', $aliases[$alias][0]), $aliases[$alias][1]));
             }
         }
 
-        $output->writeln("\nThanks to you! 💖");
+        $output->writeln("\nThanks to you! ".$this->getEmoji('heart'));
 
         return 0;
     }
@@ -211,5 +211,18 @@ class ThanksCommand extends BaseCommand
         $data = array_keys($data['require'] + $data['require-dev']);
 
         return array_combine($data, $data);
+    }
+
+    private function getEmoji($name)
+    {
+        $isWindows = '\\' === DIRECTORY_SEPARATOR;
+
+        switch ($name) {
+            case 'star':
+                return $isWindows ? '★' : '⭐';
+
+            case 'heart':
+                return $isWindows ? '❤' : '💖';
+        }
     }
 }
