@@ -175,9 +175,9 @@ class ThanksCommand extends BaseCommand
                 $notStarred = $this->callGithub($rfs, sprintf("mutation{\n%s}", $graphql));
             }
 
-            $output->writeln('Stars <comment>sent</> to:');
+            $output->writeln('Stars <comment>sent</comment> to:');
             foreach ($repos as $alias => $repo) {
-                $output->writeln(sprintf(' ⭐  %s - %s', sprintf(isset($notStarred[$alias]) ? '<comment>%s</>' : '%s', $aliases[$alias][0]), $aliases[$alias][1]));
+                $output->writeln(sprintf(' ⭐  %s - %s', sprintf(isset($notStarred[$alias]) ? '<comment>%s</comment>' : '%s', $aliases[$alias][0]), $aliases[$alias][1]));
             }
         }
 
