@@ -78,6 +78,10 @@ class ThanksCommand extends BaseCommand
             'name' => 'Sylius/Sylius',
             'url' => 'https://github.com/Sylius/Sylius',
         ],
+        'PrestaShop' => [
+            'name' => 'PrestaShop/PrestaShop',
+            'url' => 'https://github.com/PrestaShop/PrestaShop',
+        ],
         'symfony' => [
             'name' => 'symfony/symfony',
             'url' => 'https://github.com/symfony/symfony',
