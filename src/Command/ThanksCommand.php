@@ -118,6 +118,7 @@ class ThanksCommand extends BaseCommand
         $urls = [
             'composer/composer' => 'https://github.com/composer/composer',
             'php/php-src' => 'https://github.com/php/php-src',
+            'symfony/thanks' => 'https://github.com/symfony/thanks',
         ];
 
         $directPackages = $this->getDirectlyRequiredPackageNames();
