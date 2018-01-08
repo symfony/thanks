@@ -16,6 +16,8 @@ use Composer\Composer;
 use Composer\Json\JsonFile;
 use Composer\Util\RemoteFilesystem;
 use Composer\Factory;
+use Composer\Plugin\PluginEvents;
+use Composer\Plugin\PreFileDownloadEvent;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -197,10 +199,17 @@ class ThanksCommand extends BaseCommand
 
     private function callGitHub(RemoteFilesystem $rfs, $graphql)
     {
+        if ($eventDispatcher = $this->getComposer()->getEventDispatcher()) {
+            $preFileDownloadEvent = new PreFileDownloadEvent(PluginEvents::PRE_FILE_DOWNLOAD, $rfs, 'https://api.github.com/graphql');
+            $eventDispatcher->dispatch($preFileDownloadEvent->getName(), $preFileDownloadEvent);
+            $rfs = $preFileDownloadEvent->getRemoteFilesystem();
+        }
+
         $result = $rfs->getContents('github.com', 'https://api.github.com/graphql', false, [
             'http' => [
                 'method' => 'POST',
                 'content' => json_encode(['query' => $graphql]),
+                'header' => ['Content-Type: application/json'],
             ],
         ]);
         $result = json_decode($result, true);
