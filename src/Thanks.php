@@ -63,7 +63,7 @@ class Thanks implements Capable, CommandProvider, EventSubscriberInterface, Plug
         }
 
         $love = '\\' === DIRECTORY_SEPARATOR ? 'love' : '💖 ';
-        $star = '\\' === DIRECTORY_SEPARATOR ? 'star' : '🌟 ';
+        $star = '\\' === DIRECTORY_SEPARATOR ? 'star' : '★ ';
 
         $this->io->writeError('');
         $this->io->writeError('What about running <comment>composer thanks</> now?');
