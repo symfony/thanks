@@ -94,14 +94,14 @@ class ThanksCommand extends BaseCommand
         ],
     ];
 
-    private $star = '⭐ ';
-    private $heart = '💖';
+    private $star = '★ ';
+    private $love = '💖 ';
 
     protected function configure()
     {
         if ('\\' === DIRECTORY_SEPARATOR) {
             $this->star = '*';
-            $this->heart = '<3';
+            $this->love = '<3';
         }
 
         $this->setName('thanks')
@@ -192,7 +192,7 @@ class ThanksCommand extends BaseCommand
             }
         }
 
-        $output->writeln(sprintf("\nThanks to you! %s", $this->heart));
+        $output->writeln(sprintf("\nThanks to you! %s", $this->love));
 
         return 0;
     }
