@@ -14,9 +14,8 @@ namespace Symfony\Thanks;
 use Composer\Composer;
 use Composer\Console\Application;
 use Composer\EventDispatcher\EventSubscriberInterface;
+use Composer\Installer\PackageEvents;
 use Composer\IO\IOInterface;
-use Composer\Plugin\CommandEvent;
-use Composer\Plugin\PluginEvents;
 use Composer\Plugin\PluginInterface;
 use Composer\Script\Event as ScriptEvent;
 use Composer\Script\ScriptEvents;
@@ -41,11 +40,9 @@ class Thanks implements EventSubscriberInterface, PluginInterface
         }
     }
 
-    public function inspectCommand(CommandEvent $event)
+    public function enableReminder()
     {
-        if ('update' === $event->getCommandName()) {
-            $this->displayReminder = version_compare('1.1.0', PluginInterface::PLUGIN_API_VERSION, '<=');
-        }
+        $this->displayReminder = version_compare('1.1.0', PluginInterface::PLUGIN_API_VERSION, '<=');
     }
 
     public function displayReminder(ScriptEvent $event)
@@ -66,8 +63,8 @@ class Thanks implements EventSubscriberInterface, PluginInterface
     public static function getSubscribedEvents()
     {
         return [
+            PackageEvents::POST_PACKAGE_UPDATE => 'enableReminder',
             ScriptEvents::POST_UPDATE_CMD => 'displayReminder',
-            PluginEvents::COMMAND => 'inspectCommand',
         ];
     }
 }
