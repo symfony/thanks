@@ -12,11 +12,10 @@
 namespace Symfony\Thanks;
 
 use Composer\Composer;
+use Composer\Console\Application;
 use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\IO\IOInterface;
 use Composer\Plugin\CommandEvent;
-use Composer\Plugin\Capability\CommandProvider;
-use Composer\Plugin\Capable;
 use Composer\Plugin\PluginEvents;
 use Composer\Plugin\PluginInterface;
 use Composer\Script\Event as ScriptEvent;
@@ -25,7 +24,7 @@ use Composer\Script\ScriptEvents;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class Thanks implements Capable, CommandProvider, EventSubscriberInterface, PluginInterface
+class Thanks implements EventSubscriberInterface, PluginInterface
 {
     private $io;
     private $displayReminder = false;
@@ -33,26 +32,19 @@ class Thanks implements Capable, CommandProvider, EventSubscriberInterface, Plug
     public function activate(Composer $composer, IOInterface $io)
     {
         $this->io = $io;
-    }
 
-    public function getCapabilities()
-    {
-        return [
-            CommandProvider::class => __CLASS__,
-        ];
-    }
-
-    public function getCommands()
-    {
-        return [
-            new Command\ThanksCommand(),
-        ];
+        foreach (debug_backtrace() as $trace) {
+            if (isset($trace['object']) && $trace['object'] instanceof Application) {
+                $trace['object']->add(new Command\ThanksCommand());
+                break;
+            }
+        }
     }
 
     public function inspectCommand(CommandEvent $event)
     {
         if ('update' === $event->getCommandName()) {
-            $this->displayReminder = true;
+            $this->displayReminder = version_compare('1.1.0', PluginInterface::PLUGIN_API_VERSION, '<=');
         }
     }
 
