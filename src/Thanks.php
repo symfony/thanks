@@ -26,28 +26,49 @@ use Composer\Script\ScriptEvents;
 class Thanks implements EventSubscriberInterface, PluginInterface
 {
     private $io;
-    private $displayReminder = false;
+    private $displayReminder = 0;
 
     public function activate(Composer $composer, IOInterface $io)
     {
         $this->io = $io;
 
         foreach (debug_backtrace() as $trace) {
-            if (isset($trace['object']) && $trace['object'] instanceof Application) {
-                $trace['object']->add(new Command\ThanksCommand());
-                break;
+            if (!isset($trace['object']) || !isset($trace['args'][0])) {
+                continue;
             }
+
+            if (!$trace['object'] instanceof Application || !$trace['args'][0] instanceof ArgvInput) {
+                continue;
+            }
+
+            $input = $trace['args'][0];
+            $app = $trace['object'];
+
+            try {
+                $command = $input->getFirstArgument();
+                $command = $command ? $app->find($command)->getName() : null;
+            } catch (\InvalidArgumentException $e) {
+            }
+
+            if ('update' === $command) {
+                $this->displayReminder = 1;
+            }
+
+            $app->add(new Command\ThanksCommand());
+            break;
         }
     }
 
     public function enableReminder()
     {
-        $this->displayReminder = version_compare('1.1.0', PluginInterface::PLUGIN_API_VERSION, '<=');
+        if (1 === $this->displayReminder) {
+            $this->displayReminder = version_compare('1.1.0', PluginInterface::PLUGIN_API_VERSION, '<=') ? 2 : 0;
+        }
     }
 
     public function displayReminder(ScriptEvent $event)
     {
-        if (!$this->displayReminder) {
+        if (2 !== $this->displayReminder) {
             return;
         }
 
