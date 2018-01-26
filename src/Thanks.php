@@ -19,6 +19,7 @@ use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
 use Composer\Script\Event as ScriptEvent;
 use Composer\Script\ScriptEvents;
+use Symfony\Component\Console\Input\ArgvInput;
 
 /**
  * @author Nicolas Grekas <p@tchwork.com>
