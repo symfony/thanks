@@ -13,6 +13,7 @@ namespace Symfony\Thanks\Command;
 
 use Composer\Command\BaseCommand;
 use Composer\Composer;
+use Composer\Downloader\TransportException;
 use Composer\Json\JsonFile;
 use Composer\Util\RemoteFilesystem;
 use Composer\Factory;
@@ -213,6 +214,10 @@ class ThanksCommand extends BaseCommand
             ],
         ]);
         $result = json_decode($result, true);
+
+        if (isset($result['errors'][0]['message'])) {
+            throw new TransportException($result['errors'][0]['message']);
+        }
 
         return $result['data'];
     }
