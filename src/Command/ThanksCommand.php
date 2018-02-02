@@ -19,6 +19,7 @@ use Composer\Util\RemoteFilesystem;
 use Composer\Factory;
 use Composer\Plugin\PluginEvents;
 use Composer\Plugin\PreFileDownloadEvent;
+use Hirak\Prestissimo\CurlRemoteFilesystem;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -203,7 +204,9 @@ class ThanksCommand extends BaseCommand
         if ($eventDispatcher = $this->getComposer()->getEventDispatcher()) {
             $preFileDownloadEvent = new PreFileDownloadEvent(PluginEvents::PRE_FILE_DOWNLOAD, $rfs, 'https://api.github.com/graphql');
             $eventDispatcher->dispatch($preFileDownloadEvent->getName(), $preFileDownloadEvent);
-            $rfs = $preFileDownloadEvent->getRemoteFilesystem();
+            if (!$preFileDownloadEvent->getRemoteFilesystem() instanceof CurlRemoteFilesystem) {
+                $rfs = $preFileDownloadEvent->getRemoteFilesystem();
+            }
         }
 
         $result = $rfs->getContents('github.com', 'https://api.github.com/graphql', false, [
