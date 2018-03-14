@@ -205,6 +205,7 @@ class ThanksCommand extends BaseCommand
         }
 
         $output->writeln(sprintf("\nThanks to you! %s", $this->love));
+        $output->writeln("Please consider contributing back in any way if you can!");
 
         return 0;
     }
