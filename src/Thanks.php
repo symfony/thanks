@@ -74,7 +74,7 @@ class Thanks implements EventSubscriberInterface, PluginInterface
         }
 
         $love = '\\' === DIRECTORY_SEPARATOR ? '♥' : '💖';
-        $star = '\\' === DIRECTORY_SEPARATOR ? '*' : '★';
+        $star = '\\' === DIRECTORY_SEPARATOR ? '*' : '⭐️';
 
         $this->io->writeError('');
         $this->io->writeError('What about running <comment>composer thanks</> now?');
