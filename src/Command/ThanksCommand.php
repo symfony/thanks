@@ -103,7 +103,7 @@ class ThanksCommand extends BaseCommand
     {
         if ('\\' === DIRECTORY_SEPARATOR) {
             $this->star = '*';
-            $this->love = '<3';
+            $this->love = '♥';
         }
 
         $this->setName('thanks')
