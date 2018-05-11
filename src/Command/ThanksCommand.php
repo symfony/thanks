@@ -46,6 +46,10 @@ class ThanksCommand extends BaseCommand
             'name' => 'drupal/drupal',
             'url' => 'https://github.com/drupal/drupal',
         ],
+        'ezplatform' => [
+            'name' => 'ezsystems/ezplatform',
+            'url' => 'https://github.com/ezsystems/ezplatform',
+        ],
         'laravel' => [
             'name' => 'laravel/laravel',
             'url' => 'https://github.com/laravel/laravel',
