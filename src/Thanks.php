@@ -73,8 +73,13 @@ class Thanks implements EventSubscriberInterface, PluginInterface
             return;
         }
 
-        $love = '\\' === DIRECTORY_SEPARATOR ? 'love' : '💖 ';
-        $star = '\\' === DIRECTORY_SEPARATOR ? 'star' : '★ ';
+        if ('Hyper' === getenv('TERM_PROGRAM')) {
+            $love = '💖 ';
+            $star = '⭐ ';
+        } else {
+            $love = '\\' === DIRECTORY_SEPARATOR ? 'love' : '💖 ';
+            $star = '\\' === DIRECTORY_SEPARATOR ? 'star' : '★ ';            
+        }
 
         $this->io->writeError('');
         $this->io->writeError('What about running <comment>composer thanks</> now?');
