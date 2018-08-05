@@ -101,7 +101,10 @@ class ThanksCommand extends BaseCommand
 
     protected function configure()
     {
-        if ('\\' === DIRECTORY_SEPARATOR) {
+        if ('Hyper' === getenv('TERM_PROGRAM')) {
+            $this->star = '⭐ ';
+            $this->love = '💖 ';
+        } elseif ('\\' === DIRECTORY_SEPARATOR) {
             $this->star = '*';
             $this->love = '<3';
         }
