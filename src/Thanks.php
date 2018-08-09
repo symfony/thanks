@@ -83,7 +83,7 @@ class Thanks implements EventSubscriberInterface, PluginInterface
 
         $this->io->writeError('');
         $this->io->writeError('What about running <comment>composer thanks</> now?');
-        $this->io->writeError(sprintf('This will spread some %s by sending a %s to the GitHub repositories of your fellow package maintainers.', $love, $star));
+        $this->io->writeError(sprintf('This will spread some %sby sending a %sto the GitHub repositories of your fellow package maintainers.', $love, $star));
         $this->io->writeError('');
     }
 
