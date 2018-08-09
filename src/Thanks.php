@@ -81,10 +81,10 @@ class Thanks implements EventSubscriberInterface, PluginInterface
             $star = '\\' === DIRECTORY_SEPARATOR ? 'star' : '★ ';            
         }
 
-        $this->io->writeError('');
-        $this->io->writeError('What about running <comment>composer thanks</> now?');
-        $this->io->writeError(sprintf('This will spread some %s by sending a %s to the GitHub repositories of your fellow package maintainers.', $love, $star));
-        $this->io->writeError('');
+        $this->io->write('');
+        $this->io->write('What about running <comment>composer thanks</> now?');
+        $this->io->write(sprintf('This will spread some %s by sending a %s to the GitHub repositories of your fellow package maintainers.', $love, $star));
+        $this->io->write('');
     }
 
     public static function getSubscribedEvents()
