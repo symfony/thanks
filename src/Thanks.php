@@ -56,6 +56,7 @@ class Thanks implements EventSubscriberInterface, PluginInterface
             }
 
             $app->add(new Command\ThanksCommand());
+            $app->add(new Command\FundCommand());
             break;
         }
     }

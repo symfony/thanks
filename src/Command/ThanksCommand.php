@@ -24,15 +24,16 @@ class ThanksCommand extends BaseCommand
 {
     private $star = '★ ';
     private $love = '💖 ';
+    private $cash = '💵 ';
 
     protected function configure()
     {
         if ('Hyper' === getenv('TERM_PROGRAM')) {
             $this->star = '⭐ ';
-            $this->love = '💖 ';
         } elseif ('\\' === \DIRECTORY_SEPARATOR) {
             $this->star = '*';
             $this->love = '<3';
+            $this->cash = '$$$';
         }
 
         $this->setName('thanks')
@@ -85,8 +86,9 @@ class ThanksCommand extends BaseCommand
             }
         }
 
-        $output->writeln(sprintf("\nThanks to you! %s", $this->love));
-        $output->writeln('Please consider contributing back in any way if you can!');
+        $output->writeln("\nPlease consider contributing back in any way if you can!");
+        $output->writeln(sprintf("\nRun <comment>composer fund</> to discover how you can sponsor your fellow PHP package maintainers %s", $this->cash));
+        $output->writeln(sprintf("\nThanks you! %s", $this->love));
 
         return 0;
     }
