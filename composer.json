@@ -1,6 +1,6 @@
 {
     "name": "symfony/thanks",
-    "description": "Give thanks (in the form of a GitHub ⭐) to your fellow PHP package maintainers (not limited to Symfony components)!",
+    "description": "Encourages sending ⭐ and 💵 to fellow PHP package maintainers (not limited to Symfony components)!",
     "type": "composer-plugin",
     "license": "MIT",
     "authors": [
@@ -20,7 +20,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0-dev"
+            "dev-master": "1.2-dev"
         },
         "class": "Symfony\\Thanks\\Thanks"
     }
