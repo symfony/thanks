@@ -88,7 +88,7 @@ class ThanksCommand extends BaseCommand
 
         $output->writeln("\nPlease consider contributing back in any way if you can!");
         $output->writeln(sprintf("\nRun <comment>composer fund</> to discover how you can sponsor your fellow PHP package maintainers %s", $this->cash));
-        $output->writeln(sprintf("\nThanks you! %s", $this->love));
+        $output->writeln(sprintf("\nThank you! %s", $this->love));
 
         return 0;
     }

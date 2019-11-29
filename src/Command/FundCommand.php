@@ -78,7 +78,7 @@ class FundCommand extends BaseCommand
             }
 
             $output->writeln("\nPlease consider following these links and sponsoring the work of package authors!");
-            $output->writeln(sprintf("\nThanks you! %s", $this->love));
+            $output->writeln(sprintf("\nThank you! %s", $this->love));
         } else {
             $output->writeln("No funding links were found in your package dependencies. That doesn't mean they don't need your support!");
         }
