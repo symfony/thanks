@@ -67,20 +67,20 @@ class FundCommand extends BaseCommand
             foreach ($fundings as $owner => $links) {
                 $output->writeln(sprintf("\n<comment>%s</comment>", $owner));
                 foreach ($links as $url => $packages) {
-                    $line = sprintf("  <info>%s/%s</>", $owner, implode(', ', $packages));
+                    $line = sprintf('  <info>%s/%s</>', $owner, implode(', ', $packages));
 
                     if ($prev !== $line) {
                         $output->writeln($line);
                         $prev = $line;
                     }
-                    $output->writeln(sprintf("    %s %s", $this->cash, $url));
+                    $output->writeln(sprintf('    %s %s', $this->cash, $url));
                 }
             }
 
             $output->writeln("\nPlease consider following these links and sponsoring the work of package authors!");
             $output->writeln(sprintf("\nThank you! %s", $this->love));
         } else {
-            $output->writeln("No funding links were found in your package dependencies. That doesn't mean they don't need your support!");
+            $output->writeln("No funding links were found in your package dependencies. This doesn't mean they don't need your support!");
         }
 
         if ($notStarred) {
