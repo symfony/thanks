@@ -85,17 +85,22 @@ class Thanks implements EventSubscriberInterface, PluginInterface
             return;
         }
 
+        $love = '💖 ';
+        $star = '★ ';
+        $cash = '💵 ';
+
         if ('Hyper' === getenv('TERM_PROGRAM')) {
-            $love = '💖 ';
             $star = '⭐ ';
-        } else {
-            $love = '\\' === \DIRECTORY_SEPARATOR ? 'love' : '💖 ';
-            $star = '\\' === \DIRECTORY_SEPARATOR ? 'star' : '★ ';
+        } elseif ('\\' === \DIRECTORY_SEPARATOR) {
+            $love = 'love';
+            $star = 'star';
+            $cash = 'cash.';
         }
 
         $this->io->writeError('');
-        $this->io->writeError('What about running <comment>composer thanks</> now?');
+        $this->io->writeError('What about running <comment>composer thanks</> now?</>');
         $this->io->writeError(sprintf('This will spread some %s by sending a %s to <comment>%d</comment> GitHub repositor%s of your fellow package maintainers.', $love, $star, $notStarred, 1 < $notStarred ? 'ies' : 'y'));
+        $this->io->writeError(sprintf('Don\'t miss also running <comment>composer fund</> to discover how you can sponsor their work with some %s</>', $cash));
         $this->io->writeError('');
     }
 
