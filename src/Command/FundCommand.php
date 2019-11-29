@@ -54,7 +54,7 @@ class FundCommand extends BaseCommand
             $notStarred += (int) !$repo['viewerHasStarred'];
 
             foreach ($repo['fundingLinks'] as $link) {
-                [$owner, $package] = explode('/', $repo['package'], 2);
+                list($owner, $package) = explode('/', $repo['package'], 2);
                 $fundings[$owner][$link['url']][] = $package;
             }
         }
