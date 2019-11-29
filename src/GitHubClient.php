@@ -58,9 +58,9 @@ class GitHubClient
             'name' => 'phpDocumentor/phpDocumentor2',
             'url' => 'https://github.com/phpDocumentor/phpDocumentor2',
         ],
-        'piwik' => [
+        'matomo' => [
             'name' => 'piwik/piwik',
-            'url' => 'https://github.com/piwik/piwik',
+            'url' => 'https://github.com/matomo-org/matomo',
         ],
         'reactphp' => [
             'name' => 'reactphp/react',
