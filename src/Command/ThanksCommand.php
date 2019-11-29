@@ -80,7 +80,7 @@ class ThanksCommand extends BaseCommand
             $output->writeln('Some repositories could not be starred, please run <info>composer update</info> and try again:');
 
             foreach ($failures as $alias => $failure) {
-                foreach ($failure['messages'] as $message) {
+                foreach ((array) $failure['messages'] as $message) {
                     $output->writeln(sprintf(' * %s - %s', $failure['url'], $message));
                 }
             }
