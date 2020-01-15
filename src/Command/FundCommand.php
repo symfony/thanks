@@ -46,7 +46,7 @@ class FundCommand extends BaseCommand
         $composer = $this->getComposer();
         $gitHub = new GitHubClient($composer, $this->getIO());
 
-        $repos = $gitHub->getRepositories($failures);
+        $repos = $gitHub->getRepositories($failures, true);
         $fundings = [];
         $notStarred = 0;
 
