@@ -94,7 +94,7 @@ class Thanks implements EventSubscriberInterface, PluginInterface
         $cash = '💵 ';
 
         if ('Hyper' === getenv('TERM_PROGRAM')) {
-            $star = '⭐ ';
+            $star = '⭐';
         } elseif ('\\' === \DIRECTORY_SEPARATOR) {
             $love = 'love';
             $star = 'star';
