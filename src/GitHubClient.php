@@ -18,6 +18,8 @@ use Composer\IO\IOInterface;
 use Composer\Json\JsonFile;
 use Composer\Plugin\PluginEvents;
 use Composer\Plugin\PreFileDownloadEvent;
+use Composer\Util\HttpDownloader;
+use Composer\Util\RemoteFilesystem;
 use Hirak\Prestissimo\CurlRemoteFilesystem;
 
 /**
@@ -100,7 +102,12 @@ class GitHubClient
     {
         $this->composer = $composer;
         $this->io = $io;
-        $this->rfs = Factory::createRemoteFilesystem($io, $composer->getConfig());
+
+        if (class_exists(HttpDownloader::class)) {
+            $this->rfs = new HttpDownloader($io, $composer->getConfig())
+        } else {
+            $this->rfs = Factory::createRemoteFilesystem($io, $composer->getConfig());
+        }
     }
 
     public function getRepositories(array &$failures = null, $withFundingLinks = false)
@@ -182,19 +189,28 @@ class GitHubClient
 
         if ($eventDispatcher = $this->composer->getEventDispatcher()) {
             $preFileDownloadEvent = new PreFileDownloadEvent(PluginEvents::PRE_FILE_DOWNLOAD, $rfs, 'https://api.github.com/graphql');
+
             $eventDispatcher->dispatch($preFileDownloadEvent->getName(), $preFileDownloadEvent);
-            if (!$preFileDownloadEvent->getRemoteFilesystem() instanceof CurlRemoteFilesystem) {
+
+            if ($rfs instanceof RemoteFilesystem && !$preFileDownloadEvent->getRemoteFilesystem() instanceof CurlRemoteFilesystem) {
                 $rfs = $preFileDownloadEvent->getRemoteFilesystem();
             }
         }
 
-        $result = $rfs->getContents('github.com', 'https://api.github.com/graphql', false, [
+        $options = [
             'http' => [
                 'method' => 'POST',
                 'content' => json_encode(['query' => $graphql]),
                 'header' => ['Content-Type: application/json'],
             ],
-        ]);
+        ];
+
+        if ($rfs instanceof HttpDownloader) {
+            $result = $rfs->get('https://api.github.com/graphql', $options);
+        } else {
+            $result = $rfs->getContents('github.com', 'https://api.github.com/graphql', false, $options);
+        }
+
         $result = json_decode($result, true);
 
         if (isset($result['errors'][0]['message'])) {
