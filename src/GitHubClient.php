@@ -104,7 +104,7 @@ class GitHubClient
         $this->io = $io;
 
         if (class_exists(HttpDownloader::class)) {
-            $this->rfs = new HttpDownloader($io, $composer->getConfig())
+            $this->rfs = new HttpDownloader($io, $composer->getConfig());
         } else {
             $this->rfs = Factory::createRemoteFilesystem($io, $composer->getConfig());
         }
