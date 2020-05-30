@@ -1,0 +1,25 @@
+---------------------------------------------------------------------------
+
+by nicolas-grekas at 2020-04-15T11:59:49Z
+
+Thanks for working on this :)
+
+> Due to internal changes in the package downloading components, we cannot support both composer-plugin-api v1 and v2 in the same package.
+
+Is there really nothing we can do? What are the exact blockers?
+
+---------------------------------------------------------------------------
+
+by Ayesh at 2020-04-15T12:18:28Z
+
+Thanks for the quick reply @nicolas-grekas :)
+
+Composer v2 has a `HttpDownloader` class that is not available in v1. However, we have access to the Composer object and its version, so I will work on a workaround to branch the approaches, so it's compatible with both versions.
+
+---------------------------------------------------------------------------
+
+by Ayesh at 2020-04-15T12:53:54Z
+
+@nicolas-grekas - I force-pushed a new update commit that supports both composer API versions. `Composer::getVersion()` returns the composer version number, and we simply branch the code depending on the version. I tested with current Composer snapshot and 1.10.5 and.
+
+Thank you.
