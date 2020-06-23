@@ -16,11 +16,7 @@ use Composer\Downloader\TransportException;
 use Composer\Factory;
 use Composer\IO\IOInterface;
 use Composer\Json\JsonFile;
-use Composer\Plugin\PluginEvents;
-use Composer\Plugin\PreFileDownloadEvent;
 use Composer\Util\HttpDownloader;
-use Composer\Util\RemoteFilesystem;
-use Hirak\Prestissimo\CurlRemoteFilesystem;
 
 /**
  * @author Nicolas Grekas <p@tchwork.com>
@@ -185,18 +181,6 @@ class GitHubClient
 
     public function call($graphql, array &$failures = [])
     {
-        $rfs = $this->rfs;
-
-        if ($eventDispatcher = $this->composer->getEventDispatcher()) {
-            $preFileDownloadEvent = new PreFileDownloadEvent(PluginEvents::PRE_FILE_DOWNLOAD, $rfs, 'https://api.github.com/graphql');
-
-            $eventDispatcher->dispatch($preFileDownloadEvent->getName(), $preFileDownloadEvent);
-
-            if ($rfs instanceof RemoteFilesystem && !$preFileDownloadEvent->getRemoteFilesystem() instanceof CurlRemoteFilesystem) {
-                $rfs = $preFileDownloadEvent->getRemoteFilesystem();
-            }
-        }
-
         $options = [
             'http' => [
                 'method' => 'POST',
@@ -205,10 +189,10 @@ class GitHubClient
             ],
         ];
 
-        if ($rfs instanceof HttpDownloader) {
-            $result = $rfs->get('https://api.github.com/graphql', $options)->getBody();
+        if ($this->rfs instanceof HttpDownloader) {
+            $result = $this->rfs->get('https://api.github.com/graphql', $options)->getBody();
         } else {
-            $result = $rfs->getContents('github.com', 'https://api.github.com/graphql', false, $options);
+            $result = $this->rfs->getContents('github.com', 'https://api.github.com/graphql', false, $options);
         }
 
         $result = json_decode($result, true);
