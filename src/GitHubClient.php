@@ -56,6 +56,10 @@ class GitHubClient
             'name' => 'phpDocumentor/phpDocumentor2',
             'url' => 'https://github.com/phpDocumentor/phpDocumentor2',
         ],
+        'phpstan' => [
+            'name' => 'phpstan/phpstan-src',
+            'url' => 'https://github.com/phpstan/phpstan-src'
+        ],
         'matomo' => [
             'name' => 'piwik/piwik',
             'url' => 'https://github.com/matomo-org/matomo',
