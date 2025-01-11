@@ -90,15 +90,12 @@ class GitHubClient
         ],
     ];
 
-    private $composer;
-    private $io;
     private $rfs;
 
-    public function __construct(Composer $composer, IOInterface $io)
-    {
-        $this->composer = $composer;
-        $this->io = $io;
-
+    public function __construct(
+        private Composer $composer,
+        private IOInterface $io
+    ) {
         if (class_exists(HttpDownloader::class)) {
             $this->rfs = new HttpDownloader($io, $composer->getConfig());
         } else {
