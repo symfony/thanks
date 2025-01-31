@@ -106,7 +106,7 @@ class GitHubClient
         }
     }
 
-    public function getRepositories(?array &$failures = null, $withFundingLinks = false): array
+    public function getRepositories(?array &$failures = null, bool $withFundingLinks = false): array
     {
         $repo = $this->composer->getRepositoryManager()->getLocalRepository();
 
